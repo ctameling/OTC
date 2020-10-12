@@ -1,4 +1,4 @@
 # OTC
 
-This repository includes all code for the OTC calculations
+This repository includes all code and data to reproduce all figures in the paper.
 .
