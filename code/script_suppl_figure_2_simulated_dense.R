@@ -166,18 +166,18 @@ mean_pixel_complete <- rbind(frame_pixel_10, frame_pixel_20, frame_pixel_30, fra
 lineplot <- ggplot(mean_pixel_complete, aes(x = truecoloc, y = meanvalue, col = coefficients)) +  
   geom_line() + 
   labs(x = "True Colocalisation", y = "Computed Colocalisation") +
-  coord_fixed(ratio = 1, xlim = c(0,1), ylim = c(0,1)) +
+  coord_fixed(ratio = 1, xlim = c(0,1), ylim = c(0,2.5)) +
   guides(color = guide_legend(title = "")) +
   theme(text = element_text(size = 20), legend.key.height = unit(2, 'lines'), legend.key.width = unit(2, 'lines'))+
   geom_abline(intercept = 0, linetype = "dotted")
 
-pdf("../results/random_suppl_fig1_pixelbased_comparison.pdf", width = 10, height = 7)
+pdf("../results/dense_suppl_fig2_pixelbased_comparison.pdf", width = 10, height = 7)
 lineplot
 dev.off()
 
 # Save Colocalization data 
-write.csv(coloc_pixel_complete, "../results/random_suppl_fig1_pixelbased_comparison_coloc_data.csv") 
-write.csv(mean_pixel_complete, "../results/random_suppl_fig1_pixelbased_comparison_mean_data.csv")
+write.csv(coloc_pixel_complete, "../results/dense_suppl_fig2_pixelbased_comparison_coloc_data.csv") 
+write.csv(mean_pixel_complete, "../results/dense_suppl_fig2_pixelbased_comparison_mean_data.csv")
 
 #------------------------ Object based colocalization data ----------------------------------------#
 # Combine data of all Colocalization levels
@@ -195,10 +195,10 @@ lineplot <- ggplot(mean_object_complete, aes(x = truecoloc, y = meanvalue, col =
   theme(text = element_text(size = 20), legend.key.height = unit(2, 'lines'), legend.key.width = unit(2, 'lines'))+
   geom_abline(intercept = 0, linetype = "dotted")
 
-pdf("../results/random_suppl_fig1_objectbased_comparison.pdf", width = 10, height = 7)
+pdf("../results/dense_suppl_fig2_objectbased_comparison.pdf", width = 10, height = 7)
 lineplot
 dev.off()
 
 # Save Colocalization data 
-write.csv(coloc_object_complete, "../results/random_suppl_fig1_objectbased_comparison_coloc_data.csv") 
-write.csv(mean_object_complete, "../results/random_suppl_fig1_objectbased_comparison_mean_data.csv")
+write.csv(coloc_object_complete, "../results/dense_suppl_fig2_objectbased_comparison_coloc_data.csv") 
+write.csv(mean_object_complete, "../results/dense_suppl_fig2_objectbased_comparison_mean_data.csv")
