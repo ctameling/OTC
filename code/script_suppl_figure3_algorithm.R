@@ -3,7 +3,7 @@ library(transport)
 library(ggplot2)
 library(collections)
 RNGversion("3.5.3")  # change to old sampling default
-set.seed(13)
+set.seed(51)
 dim <- 64
 pxsize <- 15
 
@@ -14,8 +14,9 @@ a <- matrix(a, dim, dim)/ sum(a)
 b <- rbinom(dim^2, 1, p = 0.4)
 b <- matrix(b, dim, dim)/sum(b)
 
+
 # algorithms
-algos <- c('aha', 'shielding', 'revsimplex', 'primaldual', 'shortsimplex')
+algos <- c('aha', 'shielding', 'revsimplex', 'primaldual')
 tplans <- collections::dict()
 
 # calculate transportplans with differenrt algorithms
@@ -30,7 +31,6 @@ for (alg in algos){
 results <- data.frame(class = character(0), t = numeric(0), OTC = numeric(0))
 
 for (alg in algos){
-  print(alg)
   tplan <- tplans$get(alg)
   for (t in seq(0,pxsize*dim*sqrt(2)/10)){
       results <- rbind(results, data.frame(class = alg, t = t, OTC = 1- sum(tplan[tplan$dist > t,]$mass)))  
@@ -38,8 +38,12 @@ for (alg in algos){
 }
 
 # plot results
-ggplot(data = results, aes(x = t, y = OTC, color = class)) + 
+pdf(file.path("../results", "OTC_curves_different_algos_suppl_figure3.pdf"), width = 10, height = 7)
+p <- ggplot(data = results, aes(x = t, y = OTC, color = class)) + 
   geom_line() + 
   xlab('threshold in nm') + 
   ylab('Optimal Transport Colocalization') + 
   labs(color = 'Algorithm')
+# save the plot
+print(p)
+dev.off()
