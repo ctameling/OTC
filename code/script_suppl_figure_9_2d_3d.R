@@ -1,21 +1,22 @@
 rm(list = ls())
 RNGversion("3.5.3")  # change to old sampling default
 ######################################################################################################
-####### Script for Figure 6 ##########################################################################
-####### Evaluation of yeast data #####################################################################
+####### Script for Supplementary Figure 9 ##########################################################################
+####### Evaluation of STED images with 2D and 3D PSF##################################################
 ######################################################################################################
 
-library(OTC)
-library(ggplot2)
 library(tiff)
+library(ggplot2)
 source("../code/corMethods.R") 
 
 # get data path
-data_path <- "../data/real_data/Figure6_Yeast/"
+data_path <- "../data/real_data/Figure7_2D_3D/"
+
+name_molecule <- "ATPB/Mic60"
 
 ############ hand picked data #########################################################################
 
-for (i in c("Tom40_Cbp3", "Tom40_Mrpl4", "Tom40_Tom20", "Tom40_Tom40")){
+for (i in c("2D", "3D")){
   data_path_i <- file.path(data_path, i, "128x128 sections")
   files <- list.files(data_path_i)
   picsA <- files[grepl("_594", files)]
@@ -23,10 +24,6 @@ for (i in c("Tom40_Cbp3", "Tom40_Mrpl4", "Tom40_Tom20", "Tom40_Tom40")){
   squassh_data <- files[grepl("Squassh_", files)]
   debias_data <- files[grepl("_GILI", files)]
   
-  # # compute tplans
-  # tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, output_path = "../results", output_name = i)
-  
-  #------------------------ Pixel based colocalization data ----------------------------------------#
   n <- length(picsA)
   
   # Initialize coefficient arrays 
@@ -104,31 +101,15 @@ for (i in c("Tom40_Cbp3", "Tom40_Mrpl4", "Tom40_Tom20", "Tom40_Tom40")){
   meanvalue[9] <- mean(Thresholded_Overlap_Coeff_ch2) 
   standarderror[9] <- stand.error(Thresholded_Overlap_Coeff_ch2) 
   
-  name_molecule <- i 
-  
   frame_coefficients <- data.frame(coefficients, meanvalue, standarderror, 
                                    name_molecule, i, stringsAsFactors=FALSE)
   assign(paste0("frame_",i), frame_coefficients)
 }
 
-# # evaluate OTC
-# data_path_tplans <- "../results"
-# data_list <- c("Tom40_Cbp3", "Tom40_Mrpl4", "Tom40_Tom20", "Tom40_Tom40")
-# data_list <- paste("Tplans_", data_list, ".RData", sep="")
-# dim <- c(128)
-# pxsize <- 15
-# otc_curves <- OTC::evaluate_tplans(data_path = data_path_tplans, data_list=data_list, pxsize=pxsize, dim=dim, output_path="../results", output_name="yeast")
-# 
-# # plot otc curves
-# OTC::plot_otc_curves(otc_curves = otc_curves, output_path = "../results", output_name = "yeast_figure6")
+mean_complete <- rbind(frame_2D, frame_3D)
+coloc_complete <- rbind(coloc_data_2D, coloc_data_3D)
 
-#------------------------ Pixel based colocalization data ----------------------------------------#
-
-mean_complete <- rbind(frame_Tom40_Mrpl4, frame_Tom40_Cbp3,
-                       frame_Tom40_Tom20, frame_Tom40_Tom40)
-coloc_complete <- rbind(coloc_data_Tom40_Mrpl4, coloc_data_Tom40_Cbp3,
-                        coloc_data_Tom40_Tom20, coloc_data_Tom40_Tom40)
-mean_complete$i <- factor(mean_complete$i, levels = unique(mean_complete$i), ordered=TRUE)
+mean_complete$name_molecule <- factor(mean_complete$name_molecule, levels = unique(mean_complete$name_molecule), ordered=TRUE)
 
 # Initialize Barplot
 barplot <- ggplot(mean_complete, x=i, y=meanvalue, aes(i, meanvalue, fill = coefficients)) +  
@@ -138,26 +119,21 @@ barplot <- ggplot(mean_complete, x=i, y=meanvalue, aes(i, meanvalue, fill = coef
                 position = position_dodge()) +
   coord_cartesian(ylim = c(0, 2.5))
 
-pdf("../results/yeast_figure6_pixelbased_comparison.pdf", width = 10, height = 7)
+pdf("../results/2D_3D_suppl_figure9_pixelbased_comparison.pdf", width = 10, height = 7)
 barplot
 dev.off()
 
 # Save Colocalization data 
-write.csv(coloc_complete, "../results/yeast_figure6_pixelbased_comparison_coloc_data.csv") 
-write.csv(mean_complete, "../results/yeast_figure6_pixelbased_comparison_mean_data.csv")
+write.csv(coloc_complete, "../results/2D_3D_suppl_figure9_pixelbased_comparison_coloc_data.csv") 
+write.csv(mean_complete, "../results/2D_3D_suppl_figure9_pixelbased_comparison_mean_data.csv")
 
 ############ randomly picked data #########################################################################
-seed_Tom40_Cbp3 <- 21
-seed_Tom40_Mrpl4 <- 15
-seed_Tom40_Tom20 <- 5
-seed_Tom40_Tom40 <- 19
+samples_number <- 34
+seed_2D <- 16
+seed_3D <- 43
 
-samples_number_Tom40_Cbp3 <- 15
-samples_number_Tom40_Mrpl4 <- 25
-samples_number_Tom40_Tom20 <- 20
-samples_number_Tom40_Tom40 <- 50
-
-for (i in c("Tom40_Cbp3", "Tom40_Mrpl4", "Tom40_Tom20", "Tom40_Tom40")){
+#seeds <- c(16, 43)
+for (i in c("2D", "3D")){
   data_path_i <- file.path(data_path, i)
   files <- list.files(data_path_i)
   picsA <- files[grepl("_594", files)]
@@ -165,28 +141,13 @@ for (i in c("Tom40_Cbp3", "Tom40_Mrpl4", "Tom40_Tom20", "Tom40_Tom40")){
   squassh_data <- files[grepl("Squassh_", files)]
   debias_data <- files[grepl("_GILI", files)]
   
-  if(i == "Tom40_Cbp3") {
-    set.seed(seed_Tom40_Cbp3) 
-    samples_number <- samples_number_Tom40_Cbp3
-  } 
-  if(i == "Tom40_Mrpl4") {
-    set.seed(seed_Tom40_Mrpl4) 
-    samples_number <- samples_number_Tom40_Mrpl4
-  }
-  if(i == "Tom40_Tom20") {
-    set.seed(seed_Tom40_Tom20) 
-    samples_number <- samples_number_Tom40_Tom20
-  }
-  if(i == "Tom40_Tom40") {
-    set.seed(seed_Tom40_Tom40) 
-    samples_number <- samples_number_Tom40_Tom40
-  }
-  
-  # # compute tplans
-  # tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, random_sections=TRUE, n_random_sections = samples_number, output_path = "../results", output_name = i)
-  
-  #------------------------ Pixel based colocalization data ----------------------------------------#
   n <- length(picsA)*samples_number
+  
+  if(i == "2D") {
+    set.seed(seed_2D) 
+  } else {
+    set.seed(seed_3D) 
+  }
   
   # Initialize coefficient arrays 
   ICCS_M1 <- rep(NA,n)
@@ -217,8 +178,8 @@ for (i in c("Tom40_Cbp3", "Tom40_Mrpl4", "Tom40_Tom20", "Tom40_Tom40")){
     segments <- OTC::randomsegments2(picA, picB, samplesize = samples_number,
                                      segmentlength = 128, 
                                      segmentwidth = 128, 
-                                     relmass = 5*min(length(which(picA > 0)), 
-                                                     length(which(picB > 0)))/(dim(picA)[1] * dim(picB)[2]))
+                                     relmass = min(length(which(picA > 0)), 
+                                                   length(which(picB > 0)))/(dim(picA)[1] * dim(picB)[2]))
     
     for(k in 1:samples_number) {
       snip1 <- as.matrix(segments[[1]][[k]])
@@ -280,23 +241,10 @@ for (i in c("Tom40_Cbp3", "Tom40_Mrpl4", "Tom40_Tom20", "Tom40_Tom40")){
   assign(paste0("frame_",i), frame_coefficients)
 }
 
-# # evaluate OTC
-# data_path_tplans <- "../results"
-# data_list <- c("Tom40_Cbp3", "Tom40_Mrpl4", "Tom40_Tom20", "Tom40_Tom40")
-# data_list <- paste("Tplans_", data_list, ".RData", sep="")
-# dim <- c(128)
-# pxsize <- 15
-# otc_curves <- OTC::evaluate_tplans(data_path = data_path_tplans, data_list=data_list, pxsize=pxsize, dim=dim, output_path="../results", output_name="yeast_random")
-# 
-# # plot otc curves
-# OTC::plot_otc_curves(otc_curves = otc_curves, output_path = "../results", output_name = "yeast_random_figure6")
+mean_complete <- rbind(frame_2D, frame_3D)
+coloc_complete <- rbind(coloc_data_2D, coloc_data_3D)
 
-#------------------------ Pixel based colocalization data ----------------------------------------#
-mean_complete <- rbind(frame_Tom40_Mrpl4, frame_Tom40_Cbp3,
-                       frame_Tom40_Tom20, frame_Tom40_Tom40)
-coloc_complete <- rbind(coloc_data_Tom40_Mrpl4, coloc_data_Tom40_Cbp3,
-                        coloc_data_Tom40_Tom20, coloc_data_Tom40_Tom40)
-mean_complete$i <- factor(mean_complete$i, levels = unique(mean_complete$i), ordered=TRUE)
+mean_complete$name_molecule <- factor(mean_complete$name_molecule, levels = unique(mean_complete$name_molecule), ordered=TRUE)
 
 # Initialize Barplot
 barplot <- ggplot(mean_complete, x=i, y=meanvalue, aes(i, meanvalue, fill = coefficients)) +  
@@ -306,12 +254,10 @@ barplot <- ggplot(mean_complete, x=i, y=meanvalue, aes(i, meanvalue, fill = coef
                 position = position_dodge()) +
   coord_cartesian(ylim = c(0, 2.5))
 
-pdf("../results/yeast_random_figure6_pixelbased_comparison.pdf", width = 10, height = 7)
+pdf("../results/2D_3D_random_suppl_figure9_pixelbased_comparison.pdf", width = 10, height = 7)
 barplot
 dev.off()
 
 # Save Colocalization data 
-write.csv(coloc_complete, "../results/yeast_random_figure6_pixelbased_comparison_coloc_data.csv") 
-write.csv(mean_complete, "../results/yeast_random_figure6_pixelbased_comparison_mean_data.csv")
-
-
+write.csv(coloc_complete, "../results/2D_3D_random_suppl_figure9_pixelbased_comparison_coloc_data.csv") 
+write.csv(mean_complete, "../results/2D_3D_random_suppl_figure9_pixelbased_comparison_mean_data.csv")

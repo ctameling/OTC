@@ -1,12 +1,14 @@
+rm(list = ls())
+RNGversion("3.5.3")  # change to old sampling default
 ######################################################################################################
-####### Script for OTC part of Supplementary Figure 4 ##############################################################
-####### Evalution of STED iamges with 2D and 3D PSF###################################################
+####### Script for Supplementary Figure 4#############################################################
+####### Evaluation of STED images with low and high background########################################
 ######################################################################################################
 
 library(OTC)
 
 # get data path
-data_path <- "../data/Real Data/Suppl. Fig. 4 HDFa"
+data_path <- "../data/real_data/SupplFig4_HDFa/"
 
 ############ hand picked data #########################################################################
 
@@ -33,16 +35,25 @@ OTC::plot_otc_curves(otc_curves = otc_curves, output_path = "../results", output
 
 
 ############ randomly picked data #########################################################################
-seeds <- c(22, 11)
+samples_number <- 10
+seed_LB <- 25
+seed_HB <- 19
+
 for (i in c("high background", "low background")){
   data_path_i <- file.path(data_path, i)
   files <- list.files(data_path_i)
   picsA <- files[grepl("_594", files)]
   picsB <- files[grepl("_640", files)]
   
+  if(i == "high background") {
+    set.seed(seed_HB) 
+  } else {
+    set.seed(seed_LB) 
+  }
+  
   # compute tplans
   set.seed(seeds[i])
-  tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, random_sections=TRUE, n_random_sections = 10, output_path = "../results", output_name = i)
+  tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, random_sections=TRUE, n_random_sections = samples_number, output_path = "../results", output_name = i)
 }
 
 # evaluate OTC
@@ -55,5 +66,3 @@ otc_curves <- OTC::evaluate_tplans(data_path = data_path_tplans, data_list=data_
 
 # plot otc curves
 OTC::plot_otc_curves(otc_curves = otc_curves, output_path = "../results", output_name = "HDFa_random_suppl_figure4")
-
-

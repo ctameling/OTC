@@ -1,12 +1,14 @@
+rm(list = ls())
+RNGversion("3.5.3")  # change to old sampling default
 ######################################################################################################
-####### Script for OTC part of Figure 7 ##############################################################
-####### Evalution of STED iamges with 2D and 3D PSF###################################################
+####### Script for Figure 7 ##########################################################################
+####### Evaluation of STED images with 2D and 3D PSF##################################################
 ######################################################################################################
 
 library(OTC)
 
 # get data path
-data_path <- "../data/Real Data/Figure 7 2D 3D"
+data_path <- "../data/real_data/Figure7_2D_3D/"
 
 ############ hand picked data #########################################################################
 
@@ -33,16 +35,25 @@ OTC::plot_otc_curves(otc_curves = otc_curves, output_path = "../results", output
 
 
 ############ randomly picked data #########################################################################
-seeds <- c(16, 43)
+samples_number <- 34
+seed_2D <- 16
+seed_3D <- 43
+
 for (i in c("2D", "3D")){
   data_path_i <- file.path(data_path, i)
   files <- list.files(data_path_i)
   picsA <- files[grepl("_594", files)]
   picsB <- files[grepl("_640", files)]
   
+  if(i == "2D") {
+    set.seed(seed_2D) 
+  } else {
+    set.seed(seed_3D) 
+  }
+  
   # compute tplans
   set.seed(seeds[i])
-  tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, random_sections=TRUE, n_random_sections = 34, output_path = "../results", output_name = i)
+  tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, random_sections=TRUE, n_random_sections = samples_number, output_path = "../results", output_name = i)
 }
 
 # evaluate OTC
@@ -55,5 +66,3 @@ otc_curves <- OTC::evaluate_tplans(data_path = data_path_tplans, data_list=data_
 
 # plot otc curves
 OTC::plot_otc_curves(otc_curves = otc_curves, output_path = "../results", output_name = "2D_3D_random_figure7")
-
-
