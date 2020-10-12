@@ -1,0 +1,28 @@
+"","coefficients","meanvalue","standarderror","truecoloc"
+"1","Mask center 1 inside Mask 2",0.0225,0.00507185214793633,0.1
+"2","Ripley's K function of 2 coloc. with 1",0.6975,0.0506165928691789,0.1
+"3","SODA of 2 coloc. with 1",0.4265,0.022103524367704,0.1
+"4","Mask center 1 inside Mask 2",0.031,0.00446624768917406,0.2
+"5","Ripley's K function of 2 coloc. with 1",0.6595,0.0582484470088891,0.2
+"6","SODA of 2 coloc. with 1",0.407,0.0293804446242018,0.2
+"7","Mask center 1 inside Mask 2",0.031,0.005021008495889,0.3
+"8","Ripley's K function of 2 coloc. with 1",0.669,0.0593513179918392,0.3
+"9","SODA of 2 coloc. with 1",0.4545,0.0330905853998575,0.3
+"10","Mask center 1 inside Mask 2",0.03,0.00547722557505166,0.4
+"11","Ripley's K function of 2 coloc. with 1",0.742,0.0502289495054501,0.4
+"12","SODA of 2 coloc. with 1",0.4365,0.0248709828811345,0.4
+"13","Mask center 1 inside Mask 2",0.0335,0.00595045332196145,0.5
+"14","Ripley's K function of 2 coloc. with 1",0.743,0.0465725240887801,0.5
+"15","SODA of 2 coloc. with 1",0.508,0.02544964067578,0.5
+"16","Mask center 1 inside Mask 2",0.0285,0.00519488614940339,0.6
+"17","Ripley's K function of 2 coloc. with 1",0.819,0.0400585098390631,0.6
+"18","SODA of 2 coloc. with 1",0.5285,0.015799317107161,0.6
+"19","Mask center 1 inside Mask 2",0.0335,0.00629431656755772,0.7
+"20","Ripley's K function of 2 coloc. with 1",0.8315,0.0359625170361996,0.7
+"21","SODA of 2 coloc. with 1",0.5765,0.0215733144124134,0.7
+"22","Mask center 1 inside Mask 2",0.045,0.00573539334676404,0.8
+"23","Ripley's K function of 2 coloc. with 1",0.8325,0.0333393634896459,0.8
+"24","SODA of 2 coloc. with 1",0.5735,0.0200299118425682,0.8
+"25","Mask center 1 inside Mask 2",0.037,0.00677067982282118,0.9
+"26","Ripley's K function of 2 coloc. with 1",0.8295,0.0355444495630027,0.9
+"27","SODA of 2 coloc. with 1",0.5795,0.0262826238376132,0.9
