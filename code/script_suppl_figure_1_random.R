@@ -4,15 +4,29 @@ rm(list = ls())
 ####### Evaluation of simulated random spots #########################################################
 ######################################################################################################
 
+install.packages("OTC_0.1.0.tar.gz", repos = NULL, type = "source")
+tryCatch(
+  {
+    current_path = rstudioapi::getActiveDocumentContext()$path
+    setwd(dirname(current_path ))
+  }, 
+  error=function(cond){
+    if (identical(cond, "RStudio not running")){
+      this.dir <- dirname(parent.frame(2)$ofile)
+      setwd(this.dir)
+    }
+  })
 library(OTC)
 library(ggplot2)
 library(tiff)
 source("../code/corMethods.R") 
 
 # get data path
-data_path <- "../data/simulated_data/SupplFig1_random/"
+data_path <- "../data/simulated_data/SupplFig1_random"
+data_sets <- seq(10, 90, 10)
+output_path <- "../results"
 
-for (i in seq(10, 90, 10)){
+for (i in data_sets){
   data_path_i <- file.path(data_path, i)
   files <- list.files(data_path_i)
   picsA <- files[grepl("_red", files)]
@@ -22,8 +36,8 @@ for (i in seq(10, 90, 10)){
   object_coloc <- files[grepl("Object_coloc_", files)]
   data_obj_coloc <- read.csv(paste0(data_path_i,"/",object_coloc), header = TRUE, sep = ";")
   
-  # # compute tplans
-  # tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, output_path = "../results", output_name = paste("random", i, sep="_"))
+  # compute tplans
+  tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, output_path = output_path, output_name = paste("random", i, sep="_"))
 
   #------------------------ Pixel based colocalization data ----------------------------------------#
   n <- length(picsA)
@@ -144,16 +158,15 @@ for (i in seq(10, 90, 10)){
   assign(paste0("frame_object_",i), frame_coefficients)
 }
 
-# # evaluate OTC
-# data_path_tplans <- "../results"
-# data_list <- seq(10, 90, 10)
-# data_list <- paste("Tplans_random_", data_list, ".RData", sep="")
-# dim <- c(128)
-# pxsize <- 15
-# otc_curves <- OTC::evaluate_tplans(data_path = data_path_tplans, data_list=data_list, pxsize=pxsize, dim=dim, output_path="../results", output_name="random")
-# 
-# # plot otc curves
-# OTC::plot_otc_curves(otc_curves = otc_curves, output_path = "../results", output_name = "random_suppl_fig1")
+# evaluate OTC
+data_list <- paste("Tplans_random_", data_sets, ".RData", sep="")
+dim <- c(128)
+pxsize <- 15
+otc_curves <- OTC::evaluate_tplans(data_path = output_path, data_list=data_list, pxsize=pxsize, dim=dim, output_path=output_path, output_name="random")
+
+# plot otc curves
+OTC::plot_otc_curves(otc_curves = otc_curves, output_path = output_path, output_name = "random_suppl_fig1")
+
 
 #------------------------ Pixel based colocalization data ----------------------------------------#
 # Combine data of all Colocalization levels
