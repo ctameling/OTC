@@ -3,8 +3,18 @@
 ####### Evaluation of estimated coordinates            ################################################
 ######################################################################################################
 
-current_path = rstudioapi::getActiveDocumentContext()$path 
-setwd(dirname(current_path ))
+tryCatch(
+  {
+    current_path = rstudioapi::getActiveDocumentContext()$path
+    setwd(dirname(current_path ))
+  }, 
+  error=function(cond){
+    if (identical(cond, "RStudio not running")){
+      this.dir <- dirname(parent.frame(2)$ofile)
+      setwd(this.dir)
+    }
+  })
+install.packages("OTC_0.1.0.tar.gz", repos = NULL, type = "source")
 library(OTC)
 library(ggplot2)
 
@@ -41,7 +51,7 @@ OTC::plot_otc_curves(otc_curves = otc_curves, lower_t = 0, upper_t = 500, output
 print("Evaluation of coordinates from HDFa data")
 # get data path
 data_path <- "../data/real_data/SupplFig4_HDFa"
-data_sets <- c("high_background", "low_background")
+data_sets <- c("high background", "low background")
 output_path <- "../results"
 
 # calculate transport plans from coordinates
