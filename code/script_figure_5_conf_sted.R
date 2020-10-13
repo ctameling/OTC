@@ -5,13 +5,25 @@ RNGversion("3.5.3")  # change to old sampling default
 ####### Evaluation of confocal and STED images #######################################################
 ######################################################################################################
 
+install.packages("OTC_0.1.0.tar.gz", repos = NULL, type = "source")
+tryCatch(
+  {
+    current_path = rstudioapi::getActiveDocumentContext()$path
+    setwd(dirname(current_path ))
+  }, 
+  error=function(cond){
+    message(cond)
+    setwd(utils::getSrcDirectory()[1])
+  })
 library(OTC)
 library(ggplot2)
 library(tiff)
 source("../code/corMethods.R") 
 
 # get data path
-data_path <- "../data/real_data/Figure5_Conf_STED/"
+data_path <- "../data/real_data/Figure5_Conf_STED"
+data_sets <- c("Conf", "STED")
+output_path <- "../results"
 name_molecule <- "Tom20/Mic60"
 
 ############ hand picked data #########################################################################
@@ -25,7 +37,7 @@ for (i in c("Conf", "STED")){
   debias_data <- files[grepl("_GILI", files)]
   
   # # compute tplans
-  # tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, output_path = "../results", output_name = i)
+  tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, output_path = output_path, output_name = i)
   
   #------------------------ Pixel based colocalization data ----------------------------------------#
   n <- length(picsA)
@@ -110,16 +122,15 @@ for (i in c("Conf", "STED")){
   assign(paste0("frame_",i), frame_coefficients)
 }
 
-# # evaluate OTC
-# data_path_tplans <- "../results"
-# data_list <- c("Conf", "STED")
-# data_list <- paste("Tplans_", data_list, ".RData", sep="")
-# dim <- c(128)
-# pxsize <- 15
-# otc_curves <- OTC::evaluate_tplans(data_path = data_path_tplans, data_list=data_list, pxsize=pxsize, dim=dim, output_path="../results", output_name="Conf_STED")
-# 
-# # plot otc curves
-# OTC::plot_otc_curves(otc_curves = otc_curves, output_path = "../results", output_name = "Conf_STED_figure5")
+# evaluate OTC
+data_list <- paste("Tplans_", data_sets, ".RData", sep="")
+dim <- c(128)
+pxsize <- 15
+otc_curves <- OTC::evaluate_tplans(data_path = output_path, data_list=data_list, pxsize=pxsize, dim=dim, output_path=output_path, output_name="Conf_STED")
+
+# plot otc curves
+OTC::plot_otc_curves(otc_curves = otc_curves, output_path = output_path, output_name = "Conf_STED_figure5")
+
 
 #------------------------ Pixel based colocalization data ----------------------------------------#
 mean_complete <- rbind(frame_Conf, frame_STED)
@@ -163,7 +174,7 @@ for (i in c("Conf", "STED")){
   }
   
   # # compute tplans
-  # tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, random_sections=TRUE, n_random_sections = samples_number, output_path = "../results", output_name = i)
+  tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, random_sections=TRUE, n_random_sections = 7, output_path = output_path, output_name = i)
 
   #------------------------ Pixel based colocalization data ----------------------------------------#
   n <- length(picsA)*samples_number
@@ -266,16 +277,15 @@ for (i in c("Conf", "STED")){
   assign(paste0("frame_",i), frame_coefficients)
 }
 
-# # evaluate OTC
-# data_path_tplans <- "../results"
-# data_list <- c("Conf", "STED")
-# data_list <- paste("Tplans_", data_list, ".RData", sep="")
-# dim <- c(128)
-# pxsize <- 15
-# otc_curves <- OTC::evaluate_tplans(data_path = data_path_tplans, data_list=data_list, pxsize=pxsize, dim=dim, output_path="../results", output_name="Conf_STED_random")
-# 
-# # plot otc curves
-# OTC::plot_otc_curves(otc_curves = otc_curves, output_path = "../results", output_name = "Conf_STED_random_figure5")
+# evaluate OTC
+data_list <- paste("Tplans_", data_sets, ".RData", sep="")
+dim <- c(128)
+pxsize <- 15
+otc_curves <- OTC::evaluate_tplans(data_path = output_path, data_list=data_list, pxsize=pxsize, dim=dim, output_path=output_path, output_name="Conf_STED_random")
+
+# plot otc curves
+OTC::plot_otc_curves(otc_curves = otc_curves, output_path = "../results", output_name = "Conf_STED_random_figure5")
+
 
 #------------------------ Pixel based colocalization data ----------------------------------------#
 mean_complete <- rbind(frame_Conf, frame_STED)
