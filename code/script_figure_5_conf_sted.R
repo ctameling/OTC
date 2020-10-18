@@ -67,8 +67,8 @@ for (i in c("Conf", "STED")){
   
   for (j in 1:n) {
     # Read simulated Tiff Pictures
-    picA <- readTIFF(paste0(data_path_i,"/",picsA[j]))
-    picB <- readTIFF(paste0(data_path_i,"/",picsB[j]))
+    picA <- tiff::readTIFF(paste0(data_path_i,"/",picsA[j]))
+    picB <- tiff::readTIFF(paste0(data_path_i,"/",picsB[j]))
     
     # Compute Colocalization Coefficients
     Pearson_s_Corr[j] <- Pcor(picB, picA)

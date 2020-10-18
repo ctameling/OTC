@@ -19,6 +19,7 @@ tryCatch(
     }
   })
 library(OTC)
+library(ggplot2)
 RNGversion("3.5.3")  # change to old sampling default
 
 # get data path
