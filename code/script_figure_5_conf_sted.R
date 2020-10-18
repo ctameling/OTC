@@ -12,8 +12,10 @@ tryCatch(
     setwd(dirname(current_path ))
   }, 
   error=function(cond){
-    message(cond)
-    setwd(utils::getSrcDirectory()[1])
+    if (identical(cond, "RStudio not running")){
+      this.dir <- dirname(parent.frame(2)$ofile)
+      setwd(this.dir)
+    }
   })
 library(OTC)
 library(ggplot2)

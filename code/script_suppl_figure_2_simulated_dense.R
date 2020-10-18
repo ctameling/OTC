@@ -4,7 +4,7 @@ rm(list = ls())
 ####### Evaluation of simulated dense structures #####################################################
 ######################################################################################################
 
-nstall.packages("OTC_0.1.0.tar.gz", repos = NULL, type = "source")
+install.packages("OTC_0.1.0.tar.gz", repos = NULL, type = "source")
 tryCatch(
   {
     current_path = rstudioapi::getActiveDocumentContext()$path
