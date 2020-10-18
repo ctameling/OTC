@@ -176,7 +176,7 @@ for (i in c("Conf", "STED")){
   }
   
   # # compute tplans
-  tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, random_sections=TRUE, n_random_sections = 7, output_path = output_path, output_name = i)
+  tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, random_sections=TRUE, n_random_sections = samples_number, output_path = output_path, output_name = i)
 
   #------------------------ Pixel based colocalization data ----------------------------------------#
   n <- length(picsA)*samples_number
