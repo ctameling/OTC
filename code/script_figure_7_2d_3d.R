@@ -50,7 +50,8 @@ OTC::plot_otc_curves(otc_curves = otc_curves, output_path = output_path, output_
 
 
 ############ randomly picked data #########################################################################
-seeds <- c(16, 43)
+seed_2d <- 16
+seed_3d <- 43
 for (i in data_sets){
   data_path_i <- file.path(data_path, i)
   files <- list.files(data_path_i)
@@ -58,7 +59,11 @@ for (i in data_sets){
   picsB <- files[grepl("_640", files)]
   
   # compute tplans
-  set.seed(seeds[i])
+  if (i == "2D"){
+    set.seed(seed_2d)
+  }else{
+    set.seed(seed_3d)
+  }
   tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, random_sections=TRUE, n_random_sections = 34, output_path = output_path, output_name = i)
 }
 
