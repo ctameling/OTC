@@ -18,6 +18,7 @@ tryCatch(
     }
   })
 library(OTC)
+library(ggplot2)
 
 # get data path
 data_path <- "../data/real_data/SupplFig4_HDFa"
