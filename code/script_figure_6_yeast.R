@@ -297,7 +297,7 @@ for (i in data_sets){
 data_list <- paste("Tplans_", data_sets, ".RData", sep="")
 dim <- c(128)
 pxsize <- 15
-otc_curves <- OTC::evaluate_tplans(data_path = data_path_tplans, data_list=data_list, pxsize=pxsize, dim=dim, output_path=output_path, output_name="yeast_random")
+otc_curves <- OTC::evaluate_tplans(data_path = output_path, data_list=data_list, pxsize=pxsize, dim=dim, output_path=output_path, output_name="yeast_random")
 
 # plot otc curves
 OTC::plot_otc_curves(otc_curves = otc_curves, output_path = output_path, output_name = "yeast_random_figure6")
