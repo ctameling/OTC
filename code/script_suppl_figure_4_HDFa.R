@@ -51,6 +51,7 @@ OTC::plot_otc_curves(otc_curves = otc_curves, output_path = output_path, output_
 samples_number <- 10
 seed_LB <- 25
 seed_HB <- 19
+relmass_factor <- 1
 
 for (i in data_sets){
   data_path_i <- file.path(data_path, i)
@@ -65,7 +66,9 @@ for (i in data_sets){
   }
   
   # compute tplans
-  tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, random_sections=TRUE, n_random_sections = samples_number, output_path = output_path, output_name = i)
+  tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB,
+                                  random_sections=TRUE, n_random_sections = samples_number, relmass_factor = relmass_factor,
+                                  output_path = output_path, output_name = i)
 }
 
 # evaluate OTC

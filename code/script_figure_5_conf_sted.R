@@ -160,6 +160,7 @@ write.csv(mean_complete, "../results/Conf_STED_figure5_pixelbased_comparison_mea
 samples_number <- 34
 seed_Conf <- 25 
 seed_STED <- 8
+relmass_factor <- 1
 
 for (i in c("Conf", "STED")){
   data_path_i <- file.path(data_path, i)
@@ -176,7 +177,9 @@ for (i in c("Conf", "STED")){
   }
   
   # # compute tplans
-  tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, random_sections=TRUE, n_random_sections = samples_number, output_path = output_path, output_name = i)
+  tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB,
+                                  random_sections=TRUE, n_random_sections = samples_number, relmass_factor = relmass_factor,
+                                  output_path = output_path, output_name = i)
 
   #------------------------ Pixel based colocalization data ----------------------------------------#
   n <- length(picsA)*samples_number
@@ -216,7 +219,7 @@ for (i in c("Conf", "STED")){
     segments <- OTC::randomsegments2(picA, picB, samplesize = samples_number,
                                      segmentlength = 128, 
                                      segmentwidth = 128, 
-                                     relmass = min(length(which(picA > 0)), 
+                                     relmass = relmass_factor * min(length(which(picA > 0)), 
                                                    length(which(picB > 0)))/(dim(picA)[1] * dim(picB)[2]))
     
     for(k in 1:samples_number) {
