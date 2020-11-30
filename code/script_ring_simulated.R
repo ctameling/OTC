@@ -61,7 +61,7 @@ for (i in data_sets){
   # LI_DeBias <- debias_coloc$LI
   # 
   # # Include precomputed Squassh Colocalization Coefficient
-  # squassh_coloc <- read.table(paste0(data_path_i,"/",squassh_data), header = TRUE, sep =",")
+  # squassh_coloc <- read.table(paste0(data_path_i,"/",squassh_data), header = TRUE, sep =";", dec = ",")
   # Thresholded_Overlap_Coeff_ch1 <- squassh_coloc$ColocObjectsNumber[squassh_coloc$Channel != 1]
   # Thresholded_Overlap_Coeff_ch2 <- squassh_coloc$ColocObjectsNumber[squassh_coloc$Channel == 1]
   # 
@@ -172,50 +172,46 @@ OTC::plot_otc_curves(otc_curves = otc_curves, output_path = output_path, output_
 
 # #------------------------ Pixel based colocalization data ----------------------------------------#
 # # Combine data of all Colocalization levels
-# coloc_pixel_complete <- rbind(coloc_data_pixel_10, coloc_data_pixel_20, coloc_data_pixel_30, coloc_data_pixel_40, coloc_data_pixel_50,
-#                         coloc_data_pixel_60, coloc_data_pixel_70, coloc_data_pixel_80, coloc_data_pixel_90)
-# mean_pixel_complete <- rbind(frame_pixel_10, frame_pixel_20, frame_pixel_30, frame_pixel_40, frame_pixel_50,
-#                        frame_pixel_60, frame_pixel_70, frame_pixel_80, frame_pixel_90)
+# coloc_pixel_complete <- rbind(coloc_data_pixel_40, coloc_data_pixel_80, coloc_data_pixel_120, 
+#                               coloc_data_pixel_160, coloc_data_pixel_200,coloc_data_pixel_240)
+# mean_pixel_complete <- rbind(frame_pixel_40, frame_pixel_80, frame_pixel_120, 
+#                              frame_pixel_160, frame_pixel_200, frame_pixel_240)
 # 
-# # Initialize Lineplot
-# lineplot <- ggplot(mean_pixel_complete, aes(x = truecoloc, y = meanvalue, col = coefficients)) +  
-#   geom_line() + 
-#   labs(x = "True Colocalisation", y = "Computed Colocalisation") +
-#   coord_fixed(ratio = 1, xlim = c(0,1), ylim = c(0,1)) +
-#   guides(color = guide_legend(title = "")) +
-#   theme(text = element_text(size = 20), legend.key.height = unit(2, 'lines'), legend.key.width = unit(2, 'lines'))+
-#   geom_abline(intercept = 0, linetype = "dotted")
+# # Initialize Barplot
+# barplot <- ggplot(mean_pixel_complete, x=factor(resolution), y=meanvalue, aes(factor(resolution), meanvalue, fill = coefficients)) +  
+#   geom_bar(stat = "identity", position=position_dodge()) + 
+#   labs(title = "", x = "Resolution", y = "Computed Colocalisation") +
+#   geom_errorbar(aes(ymin=meanvalue-standarderror, ymax=meanvalue+standarderror), 
+#                 position = position_dodge()) +
+#   coord_cartesian(ylim = c(0, 5))
 # 
-# 
-# pdf("../results/sparse_structures_figure4_pixelbased_comparison.pdf", width = 10, height = 7)
-# lineplot
+# pdf("../results/ring_pixelbased_comparison.pdf", width = 10, height = 7)
+# barplot
 # dev.off()
-# 
+#
 # # Save Colocalization data 
-# write.csv(coloc_pixel_complete, "../results/sparse_structures_figure4_pixelbased_comparison_coloc_data.csv") 
-# write.csv(mean_pixel_complete, "../results/sparse_structures_figure4_pixelbased_comparison_mean_data.csv")
-# 
+# write.csv(coloc_pixel_complete, "../results/ring_pixelbased_comparison_coloc_data.csv") 
+# write.csv(mean_pixel_complete, "../results/ring_pixelbased_comparison_mean_data.csv")
+#
 # #------------------------ Object based colocalization data ----------------------------------------#
 # # Combine data of all Colocalization levels
-# coloc_object_complete <- rbind(coloc_data_object_10, coloc_data_object_20, coloc_data_object_30, coloc_data_object_40, coloc_data_object_50,
-#                         coloc_data_object_60, coloc_data_object_70, coloc_data_object_80, coloc_data_object_90)
-# mean_object_complete <- rbind(frame_object_10, frame_object_20, frame_object_30, frame_object_40, frame_object_50,
-#                        frame_object_60, frame_object_70, frame_object_80, frame_object_90)
+# coloc_object_complete <- rbind(coloc_data_object_40, coloc_data_object_80, coloc_data_object_120, 
+#                                coloc_data_object_160, coloc_data_object_200,coloc_data_object_240)
+# mean_object_complete <- rbind(frame_object_40, frame_object_80, frame_object_120, 
+#                               frame_object_160, frame_object_200, frame_object_240)
 # 
-# # Initialize Lineplot
-# lineplot <- ggplot(mean_object_complete, aes(x = truecoloc, y = meanvalue, col = coefficients)) +  
-#   geom_line() + 
-#   labs(x = "True Colocalisation", y = "Computed Colocalisation") +
-#   coord_fixed(ratio = 1, xlim = c(0,1), ylim = c(0,1)) +
-#   guides(color = guide_legend(title = "")) +
-#   theme(text = element_text(size = 20), legend.key.height = unit(2, 'lines'), legend.key.width = unit(2, 'lines'))+
-#   geom_abline(intercept = 0, linetype = "dotted")
+# # Initialize Barplot
+# barplot <- ggplot(mean_object_complete, x=factor(resolution), y=meanvalue, aes(factor(resolution), meanvalue, fill = coefficients)) +  
+#   geom_bar(stat = "identity", position=position_dodge()) + 
+#   labs(title = "", x = "Resolution", y = "Computed Colocalisation") +
+#   geom_errorbar(aes(ymin=meanvalue-standarderror, ymax=meanvalue+standarderror), 
+#                 position = position_dodge()) +
+#   coord_cartesian(ylim = c(0, 5))
 # 
-# 
-# pdf("../results/sparse_structures_figure4_objectbased_comparison.pdf", width = 10, height = 7)
-# lineplot
+# pdf("../results/ring_objectbased_comparison.pdf", width = 10, height = 7)
+# barplot
 # dev.off()
 # 
 # # Save Colocalization data 
-# write.csv(coloc_object_complete, "../results/sparse_structures_figure4_objectbased_comparison_coloc_data.csv") 
-# write.csv(mean_object_complete, "../results/sparse_structures_figure4_objectbased_comparison_mean_data.csv")
+# write.csv(coloc_object_complete, "../results/ring_objectbased_comparison_coloc_data.csv") 
+# write.csv(mean_object_complete, "../results/ring_objectbased_comparison_mean_data.csv")
