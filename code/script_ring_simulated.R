@@ -25,9 +25,10 @@ source("../code/corMethods.R")
 # setup data and output path as well as data sets
 data_path <- "../data/simulated_data/Ring"
 output_path <- "../results"
+data_set <- seq(40, 240, 40)
 
 # evaluate tplans of all preset levels of colocalization
-for (i in seq(40, 240, 40)){
+for (i in data_sets){
   data_path_i <- file.path(data_path, i)
   files <- list.files(data_path_i)
   picsA <- files[grepl("_red", files)]
@@ -38,7 +39,7 @@ for (i in seq(40, 240, 40)){
   #data_obj_coloc <- read.csv(paste0(data_path_i,"/",object_coloc), header = TRUE, sep = ";")
   
   # compute tplans
-  tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, output_path = output_path, output_name = paste("sparse_structure", i, sep="_"))
+  tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, output_path = output_path, output_name = paste("ring_structure", i, sep="_"))
   
   #------------------------ Pixel based colocalization data ----------------------------------------#
   # n <- length(picsA)
@@ -160,7 +161,7 @@ for (i in seq(40, 240, 40)){
 }
 
 # evaluate OTC
-data_list <- paste("Tplans_sparse_structure_", data_sets, ".RData", sep="")
+data_list <- paste("Tplans_ring_structure_", data_sets, ".RData", sep="")
 dim <- c(128)
 pxsize <- 15
 otc_curves <- OTC::evaluate_tplans(data_path = output_path, data_list=data_list, pxsize=pxsize, dim=dim, output_path=output_path, output_name="sparse_structure")
