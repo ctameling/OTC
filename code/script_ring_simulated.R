@@ -25,7 +25,7 @@ source("../code/corMethods.R")
 # setup data and output path as well as data sets
 data_path <- "../data/simulated_data/Ring"
 output_path <- "../results"
-data_set <- seq(40, 240, 40)
+data_sets <- seq(40, 240, 40)
 
 # evaluate tplans of all preset levels of colocalization
 for (i in data_sets){
