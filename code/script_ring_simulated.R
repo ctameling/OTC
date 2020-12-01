@@ -162,10 +162,10 @@ for (i in data_sets){
 data_list <- paste("Tplans_ring_structure_", data_sets, ".RData", sep="")
 dim <- c(128)
 pxsize <- 15
-otc_curves <- OTC::evaluate_tplans(data_path = output_path, data_list=data_list, pxsize=pxsize, dim=dim, output_path=output_path, output_name="sparse_structure")
+otc_curves <- OTC::evaluate_tplans(data_path = output_path, data_list=data_list, pxsize=pxsize, dim=dim, output_path=output_path, output_name="ring_structure")
 
 # plot otc curves
-OTC::plot_otc_curves(otc_curves = otc_curves, output_path = output_path, output_name = "sparse_structures_figure4")
+OTC::plot_otc_curves(otc_curves = otc_curves, output_path = output_path, output_name = "ring_structures")
 
 
 # #------------------------ Pixel based colocalization data ----------------------------------------#
