@@ -1,13 +1,15 @@
 <root>
-<name>12_D1_594_128x128.tif</name>
+<tags/>
+<name>_594_128x128</name>
 <meta>
 <positionX>0</positionX>
 <positionY>0</positionY>
 <positionZ>0</positionZ>
+<positionT>0</positionT>
 <pixelSizeX>1</pixelSizeX>
 <pixelSizeY>1</pixelSizeY>
 <pixelSizeZ>1</pixelSizeZ>
-<timeInterval>0</timeInterval>
+<timeInterval>1</timeInterval>
 <channelName0>ch 0</channelName0>
 <channelName1>ch 1</channelName1>
 <channelName2>ch 2</channelName2>
@@ -212,5 +214,4 @@
 </alpha>
 </colormap2>
 </lut>
-<tags/>
 </root>

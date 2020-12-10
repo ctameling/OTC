@@ -1,0 +1,7 @@
+"","coefficients","meanvalue","standarderror","name_molecule","i"
+"1","Mask center 1 inside Mask 2",0.0732566214952567,0.0149883807610986,"Conf","Conf"
+"2","Ripley's K function of 2 coloc. with 1",0.809,0.0946977648451465,"Conf","Conf"
+"3","SODA of 2 coloc. with 1",0.384581108677096,0.0608323342371845,"Conf","Conf"
+"4","Mask center 1 inside Mask 2",0.0818045981698396,0.0120097330780209,"STED","STED"
+"5","Ripley's K function of 2 coloc. with 1",0.637,0.0739075999700527,"STED","STED"
+"6","SODA of 2 coloc. with 1",0.342043659615523,0.0428903812544735,"STED","STED"
