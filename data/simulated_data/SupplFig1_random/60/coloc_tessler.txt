@@ -1,0 +1,2 @@
+	Spearmann A	Spearmann B	Manders A	Manders B
+Whole dataset	0.416679	0.496352	0.482334	0.593026
