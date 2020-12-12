@@ -2,27 +2,63 @@
 "1","Mask center 1 inside Mask 2",0.0875,0.011047147762396,0.1
 "2","Ripley's K function of 2 coloc. with 1",0.9585,0.0223285868221364,0.1
 "3","SODA of 2 coloc. with 1",0.5675,0.0304343555870664,0.1
-"4","Mask center 1 inside Mask 2",0.0845,0.00971908052831076,0.2
-"5","Ripley's K function of 2 coloc. with 1",0.894,0.0319077618011338,0.2
-"6","SODA of 2 coloc. with 1",0.559,0.0283576778798413,0.2
-"7","Mask center 1 inside Mask 2",0.0855,0.011641011893076,0.3
-"8","Ripley's K function of 2 coloc. with 1",0.9365,0.0252385982595164,0.3
-"9","SODA of 2 coloc. with 1",0.585,0.0325535995260933,0.3
-"10","Mask center 1 inside Mask 2",0.0935,0.0128406222180768,0.4
-"11","Ripley's K function of 2 coloc. with 1",0.9265,0.0294178159409709,0.4
-"12","SODA of 2 coloc. with 1",0.5745,0.0275821738771525,0.4
-"13","Mask center 1 inside Mask 2",0.094,0.0116619037896906,0.5
-"14","Ripley's K function of 2 coloc. with 1",0.915,0.028750286039767,0.5
-"15","SODA of 2 coloc. with 1",0.597,0.0289473205741231,0.5
-"16","Mask center 1 inside Mask 2",0.0875,0.0123730394512892,0.6
-"17","Ripley's K function of 2 coloc. with 1",0.961,0.0174250273729302,0.6
-"18","SODA of 2 coloc. with 1",0.615,0.0267493236510659,0.6
-"19","Mask center 1 inside Mask 2",0.1085,0.0101637902171851,0.7
-"20","Ripley's K function of 2 coloc. with 1",0.956,0.0182727867836875,0.7
-"21","SODA of 2 coloc. with 1",0.619,0.0269785489836492,0.7
-"22","Mask center 1 inside Mask 2",0.0975,0.0106097026100492,0.8
-"23","Ripley's K function of 2 coloc. with 1",0.9075,0.0321581208537145,0.8
-"24","SODA of 2 coloc. with 1",0.614,0.0249673470968109,0.8
-"25","Mask center 1 inside Mask 2",0.107,0.0094339811320566,0.9
-"26","Ripley's K function of 2 coloc. with 1",0.938,0.0219640855177624,0.9
-"27","SODA of 2 coloc. with 1",0.633,0.02294272043705,0.9
+"4","Coloc-Tesseler Spearmans A",0.78876,NA,0.1
+"5","Coloc-Tesseler Spearmans B",0.79191,NA,0.1
+"6","Coloc-Tesseler Manders A",0.448731,NA,0.1
+"7","Coloc-Tesseler Manders B",0.285632,NA,0.1
+"8","Mask center 1 inside Mask 2",0.0845,0.00971908052831076,0.2
+"9","Ripley's K function of 2 coloc. with 1",0.894,0.0319077618011338,0.2
+"10","SODA of 2 coloc. with 1",0.559,0.0283576778798413,0.2
+"11","Coloc-Tesseler Spearmans A",0.741396,NA,0.2
+"12","Coloc-Tesseler Spearmans B",0.793049,NA,0.2
+"13","Coloc-Tesseler Manders A",0.487161,NA,0.2
+"14","Coloc-Tesseler Manders B",0.353215,NA,0.2
+"15","Mask center 1 inside Mask 2",0.0855,0.011641011893076,0.3
+"16","Ripley's K function of 2 coloc. with 1",0.9365,0.0252385982595164,0.3
+"17","SODA of 2 coloc. with 1",0.585,0.0325535995260933,0.3
+"18","Coloc-Tesseler Spearmans A",0.807428,NA,0.3
+"19","Coloc-Tesseler Spearmans B",0.766499,NA,0.3
+"20","Coloc-Tesseler Manders A",0.634946,NA,0.3
+"21","Coloc-Tesseler Manders B",0.591319,NA,0.3
+"22","Mask center 1 inside Mask 2",0.0935,0.0128406222180768,0.4
+"23","Ripley's K function of 2 coloc. with 1",0.9265,0.0294178159409709,0.4
+"24","SODA of 2 coloc. with 1",0.5745,0.0275821738771525,0.4
+"25","Coloc-Tesseler Spearmans A",0.520725,NA,0.4
+"26","Coloc-Tesseler Spearmans B",0.618159,NA,0.4
+"27","Coloc-Tesseler Manders A",0.256255,NA,0.4
+"28","Coloc-Tesseler Manders B",0.357703,NA,0.4
+"29","Mask center 1 inside Mask 2",0.094,0.0116619037896906,0.5
+"30","Ripley's K function of 2 coloc. with 1",0.915,0.028750286039767,0.5
+"31","SODA of 2 coloc. with 1",0.597,0.0289473205741231,0.5
+"32","Coloc-Tesseler Spearmans A",0.703871,NA,0.5
+"33","Coloc-Tesseler Spearmans B",0.707442,NA,0.5
+"34","Coloc-Tesseler Manders A",0.651872,NA,0.5
+"35","Coloc-Tesseler Manders B",0.747518,NA,0.5
+"36","Mask center 1 inside Mask 2",0.0875,0.0123730394512892,0.6
+"37","Ripley's K function of 2 coloc. with 1",0.961,0.0174250273729302,0.6
+"38","SODA of 2 coloc. with 1",0.615,0.0267493236510659,0.6
+"39","Coloc-Tesseler Spearmans A",0.870187,NA,0.6
+"40","Coloc-Tesseler Spearmans B",0.859634,NA,0.6
+"41","Coloc-Tesseler Manders A",0.274486,NA,0.6
+"42","Coloc-Tesseler Manders B",0.582804,NA,0.6
+"43","Mask center 1 inside Mask 2",0.1085,0.0101637902171851,0.7
+"44","Ripley's K function of 2 coloc. with 1",0.956,0.0182727867836875,0.7
+"45","SODA of 2 coloc. with 1",0.619,0.0269785489836492,0.7
+"46","Coloc-Tesseler Spearmans A",0.827764,NA,0.7
+"47","Coloc-Tesseler Spearmans B",0.854682,NA,0.7
+"48","Coloc-Tesseler Manders A",0.374503,NA,0.7
+"49","Coloc-Tesseler Manders B",0.185821,NA,0.7
+"50","Mask center 1 inside Mask 2",0.0975,0.0106097026100492,0.8
+"51","Ripley's K function of 2 coloc. with 1",0.9075,0.0321581208537145,0.8
+"52","SODA of 2 coloc. with 1",0.614,0.0249673470968109,0.8
+"53","Coloc-Tesseler Spearmans A",0.502443,NA,0.8
+"54","Coloc-Tesseler Spearmans B",0.348,NA,0.8
+"55","Coloc-Tesseler Manders A",0.165414,NA,0.8
+"56","Coloc-Tesseler Manders B",0.392118,NA,0.8
+"57","Mask center 1 inside Mask 2",0.107,0.0094339811320566,0.9
+"58","Ripley's K function of 2 coloc. with 1",0.938,0.0219640855177624,0.9
+"59","SODA of 2 coloc. with 1",0.633,0.02294272043705,0.9
+"60","Coloc-Tesseler Spearmans A",0.852238,NA,0.9
+"61","Coloc-Tesseler Spearmans B",0.885318,NA,0.9
+"62","Coloc-Tesseler Manders A",0.410697,NA,0.9
+"63","Coloc-Tesseler Manders B",0.543945,NA,0.9

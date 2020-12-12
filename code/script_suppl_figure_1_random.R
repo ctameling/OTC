@@ -33,6 +33,8 @@ for (i in data_sets){
   picsB <- files[grepl("_green", files)]
   squassh_data <- files[grepl("Squassh_", files)]
   debias_data <- files[grepl("_GILI", files)]
+  coloc_tessler_data <- read.csv(file.path(data_path_i, "coloc_tessler.txt"), header= TRUE, sep="\t")
+  coloc_tessler_data <- coloc_tessler_data[, -c(1)]
   object_coloc <- files[grepl("Object_coloc_", files)]
   data_obj_coloc <- read.csv(paste0(data_path_i,"/",object_coloc), header = TRUE, sep = ";")
   
@@ -138,7 +140,11 @@ for (i in data_sets){
   
   coefficients <- c("Mask center 1 inside Mask 2", 
                     "Ripley's K function of 2 coloc. with 1", 
-                    "SODA of 2 coloc. with 1")
+                    "SODA of 2 coloc. with 1",
+                    "Coloc-Tesseler Spearmans A", 
+                    "Coloc-Tesseler Spearmans B",
+                    "Coloc-Tesseler Manders A",
+                    "Coloc-Tesseler Manders B")
   
   meanvalue <- rep(NA,length(coefficients))
   stand.error <- function(x) sd(x)/sqrt(length(x))
@@ -151,6 +157,11 @@ for (i in data_sets){
   standarderror[2] <- stand.error(Ripley_s_K_of_2_coloc_with_1) 
   meanvalue[3] <- mean(SODA_of_2_coloc._with_1)   
   standarderror[3] <- stand.error(SODA_of_2_coloc._with_1) 
+  # add results from coloc tesseler
+  meanvalue[4] <- coloc_tessler_data$Spearmann.A
+  meanvalue[5] <- coloc_tessler_data$Spearmann.B
+  meanvalue[6] <- coloc_tessler_data$Manders.A
+  meanvalue[7] <- coloc_tessler_data$Manders.B
   
   truecoloc <- i/100
   frame_coefficients <- data.frame(coefficients, meanvalue, standarderror, 
