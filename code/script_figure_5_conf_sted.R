@@ -42,7 +42,7 @@ for (i in c("Conf", "STED")){
   object_coloc <- files[grepl("Object_coloc_", files)]
   
   # compute tplans
-  tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, output_path = output_path, output_name = i)
+  #tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, output_path = output_path, output_name = i)
   
   #------------------------ Pixel based colocalization data ----------------------------------------#
   n <- length(picsA)
@@ -175,6 +175,9 @@ dim <- c(128)
 pxsize <- 15
 otc_curves <- OTC::evaluate_tplans(data_path = output_path, data_list=data_list, pxsize=pxsize, dim=dim, output_path=output_path, output_name="Conf_STED")
 
+# write source data to csv
+write.csv(otc_curves, file=file.path(output_path, "Conf_STED_figure5_OTC_source_data.csv"))
+
 # plot otc curves
 OTC::plot_otc_curves(otc_curves = otc_curves, output_path = output_path, output_name = "Conf_STED_figure5")
 
@@ -198,7 +201,7 @@ barplot
 dev.off()
 
 # Save Colocalization data 
-write.csv(coloc_complete, "../results/Conf_STED_figure5_pixelbased_comparison_coloc_data.csv") 
+write.csv(coloc_complete, "../results/Conf_STED_figure5_pixelbased_comparison_source_data.csv") 
 write.csv(mean_complete, "../results/Conf_STED_figure5_pixelbased_comparison_mean_data.csv")
 
 #------------------------ Object based colocalization data ----------------------------------------#
@@ -221,7 +224,7 @@ barplot
 dev.off()
 
 # Save Colocalization data
-write.csv(coloc_object_complete, "../results/Conf_STED_figure5_objectbased_comparison_coloc_data.csv")
+write.csv(coloc_object_complete, "../results/Conf_STED_figure5_objectbased_comparison_source_data.csv")
 write.csv(mean_object_complete, "../results/Conf_STED_figure5_objectbased_comparison_mean_data.csv")
 
 ############ randomly picked data #########################################################################
@@ -245,9 +248,9 @@ for (i in c("Conf", "STED")){
   }
 
   # # compute tplans
-  tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB,
-                                  random_sections=TRUE, n_random_sections = samples_number, relmass_factor = relmass_factor,
-                                  output_path = output_path, output_name = i)
+  #tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB,
+  #                                random_sections=TRUE, n_random_sections = samples_number, relmass_factor = relmass_factor,
+  #                                output_path = output_path, output_name = i)
 
   #------------------------ Pixel based colocalization data ----------------------------------------#
   n <- length(picsA)*samples_number
@@ -356,6 +359,9 @@ dim <- c(128)
 pxsize <- 15
 otc_curves <- OTC::evaluate_tplans(data_path = output_path, data_list=data_list, pxsize=pxsize, dim=dim, output_path=output_path, output_name="Conf_STED_random")
 
+# write source data to csv
+write.csv(otc_curves, file=file.path(output_path, "Conf_STED_random_figure5_OTC_source_data.csv"))
+
 # plot otc curves
 OTC::plot_otc_curves(otc_curves = otc_curves, output_path = "../results", output_name = "Conf_STED_random_figure5")
 
@@ -379,6 +385,6 @@ barplot
 dev.off()
 
 # Save Colocalization data
-write.csv(coloc_complete, "../results/Conf_STED_random_figure5_pixelbased_comparison_coloc_data.csv")
+write.csv(coloc_complete, "../results/Conf_STED_random_figure5_pixelbased_comparison_source_data.csv")
 write.csv(mean_complete, "../results/Conf_STED_random_figure5_pixelbased_comparison_mean_data.csv")
 

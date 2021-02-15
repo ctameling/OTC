@@ -26,6 +26,9 @@ source("../code/corMethods.R")
 data_path <- "../data/simulated_data/Figure4_sparse_structures"
 data_sets <- seq(10, 90, 10)
 output_path <- "../results"
+whole_data_pixel <- data.frame()
+whole_data_object <- data.frame()
+
 
 # evaluate tplans of all preset levels of colocalization
 for (i in seq(10, 90, 10)){
@@ -42,7 +45,7 @@ for (i in seq(10, 90, 10)){
   data_obj_coloc <- read.csv(paste0(data_path_i,"/",object_coloc), header = TRUE, sep = ";")
   
   # compute tplans
-  tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, output_path = output_path, output_name = paste("sparse_structure", i, sep="_"))
+  # tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, output_path = output_path, output_name = paste("sparse_structure", i, sep="_"))
   
   #------------------------ Pixel based colocalization data ----------------------------------------#
   n <- length(picsA)
@@ -99,6 +102,11 @@ for (i in seq(10, 90, 10)){
                     "Pearson's Corr.", "Pearson's with tresh.",
                     "Thresholded Overlap Coeff ch1", "Thresholded Overlap Coeff ch2")
   
+  # prepare for source data
+  coloc_data_pixel <- coloc_data
+  coloc_data_pixel$true_coloc <- i
+  whole_data_pixel <- rbind(whole_data_pixel, coloc_data_pixel)
+  
   meanvalue <- rep(NA,length(coefficients))
   stand.error <- function(x) sd(x)/sqrt(length(x))
   standarderror <- rep(NA,length(coefficients))
@@ -149,6 +157,11 @@ for (i in seq(10, 90, 10)){
                     "Coloc-Tesseler Manders A",
                     "Coloc-Tesseler Manders B")
   
+  # prepare for source data
+  coloc_data_object <- coloc_data
+  coloc_data_object$true_coloc <- i
+  whole_data_object <- rbind(whole_data_object)
+  
   meanvalue <- rep(NA,length(coefficients))
   stand.error <- function(x) sd(x)/sqrt(length(x))
   standarderror <- rep(NA,length(coefficients))
@@ -178,6 +191,10 @@ dim <- c(128)
 pxsize <- 15
 otc_curves <- OTC::evaluate_tplans(data_path = output_path, data_list=data_list, pxsize=pxsize, dim=dim, output_path=output_path, output_name="sparse_structure")
 
+# write source data to csv
+write.csv(otc_curves, file=file.path(output_path, "sparse_structures_figure4_OTC_source_data.csv"))
+
+      
 # plot otc curves
 OTC::plot_otc_curves(otc_curves = otc_curves, output_path = output_path, output_name = "sparse_structures_figure4")
 
@@ -204,7 +221,7 @@ lineplot
 dev.off()
 
 # Save Colocalization data 
-write.csv(coloc_pixel_complete, "../results/sparse_structures_figure4_pixelbased_comparison_coloc_data.csv") 
+write.csv(coloc_pixel_complete, "../results/sparse_structures_figure4_pixelbased_comparison_source_data.csv") 
 write.csv(mean_pixel_complete, "../results/sparse_structures_figure4_pixelbased_comparison_mean_data.csv")
 
 #------------------------ Object based colocalization data ----------------------------------------#
@@ -229,5 +246,5 @@ lineplot
 dev.off()
 
 # Save Colocalization data 
-write.csv(coloc_object_complete, "../results/sparse_structures_figure4_objectbased_comparison_coloc_data.csv") 
+write.csv(coloc_object_complete, "../results/sparse_structures_figure4_objectbased_comparison_source_data.csv") 
 write.csv(mean_object_complete, "../results/sparse_structures_figure4_objectbased_comparison_mean_data.csv")

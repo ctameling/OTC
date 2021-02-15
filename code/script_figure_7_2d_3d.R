@@ -45,6 +45,9 @@ dim <- c(128)
 pxsize <- 15
 otc_curves <- OTC::evaluate_tplans(data_path = output_path, data_list=data_list, pxsize=pxsize, dim=dim, output_path=output_path, output_name="2D_3D")
 
+# write source data to csv
+write.csv(otc_curves, file=file.path(output_path, "2D_3D_figure7_OTC_source_data.csv"))
+
 # plot otc curves
 OTC::plot_otc_curves(otc_curves = otc_curves, output_path = output_path, output_name = "2D_3D_figure7")
 
@@ -66,8 +69,8 @@ for (i in data_sets){
     set.seed(seed_3d)
   }
   tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB,
-                                  random_sections=TRUE, n_random_sections = 34, relmass_factor = relmass_factor,
-                                  output_path = output_path, output_name = i)
+                                   random_sections=TRUE, n_random_sections = 34, relmass_factor = relmass_factor,
+                                   output_path = output_path, output_name = i)
 }
 
 # evaluate OTC
@@ -75,6 +78,9 @@ data_list <- paste("Tplans_", data_sets, ".RData", sep="")
 dim <- c(128)
 pxsize <- 15
 otc_curves <- OTC::evaluate_tplans(data_path = output_path, data_list=data_list, pxsize=pxsize, dim=dim, output_path=output_path, output_name="2D_3D_random")
+
+# write source data to csv
+write.csv(otc_curves, file=file.path(output_path, "2D_3D_random_figure7_OTC_source_data.csv"))
 
 # plot otc curves
 OTC::plot_otc_curves(otc_curves = otc_curves, output_path = output_path, output_name = "2D_3D_random_figure7")

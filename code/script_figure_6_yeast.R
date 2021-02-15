@@ -41,7 +41,7 @@ for (i in data_sets){
   object_coloc <- files[grepl("Object_coloc_", files)]
   
   # compute tplans
-  tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, output_path = output_path, output_name = i)
+  #tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, output_path = output_path, output_name = i)
 
   #------------------------ Pixel based colocalization data ----------------------------------------#
   n <- length(picsA)
@@ -176,6 +176,9 @@ dim <- c(128)
 pxsize <- 15
 otc_curves <- OTC::evaluate_tplans(data_path = output_path, data_list=data_list, pxsize=pxsize, dim=dim, output_path=output_path, output_name="yeast")
 
+# write source data to csv
+write.csv(otc_curves, file=file.path(output_path, "yeast_figure6_OTC_source_data.csv"))
+
 # plot otc curves
 OTC::plot_otc_curves(otc_curves = otc_curves, output_path =output_path, output_name = "yeast_figure6")
 
@@ -201,7 +204,7 @@ barplot
 dev.off()
 
 # Save Colocalization data
-write.csv(coloc_complete, "../results/yeast_figure6_pixelbased_comparison_coloc_data.csv")
+write.csv(coloc_complete, "../results/yeast_figure6_pixelbased_comparison_source_data.csv")
 write.csv(mean_complete, "../results/yeast_figure6_pixelbased_comparison_mean_data.csv")
 
 #------------------------ Object based colocalization data ----------------------------------------#
@@ -226,7 +229,7 @@ barplot
 dev.off()
 
 # Save Colocalization data
-write.csv(coloc_object_complete, "../results/yeast_figure6_objectbased_comparison_coloc_data.csv")
+write.csv(coloc_object_complete, "../results/yeast_figure6_objectbased_comparison_source_data.csv")
 write.csv(mean_object_complete, "../results/yeast_figure6_objectbased_comparison_mean_data.csv")
 
 ############ randomly picked data #########################################################################
@@ -266,7 +269,7 @@ for (i in data_sets){
   }
 
   # compute tplans
-  tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, random_sections=TRUE, n_random_sections = samples_number, output_path = output_path, output_name = i)
+  #tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, random_sections=TRUE, n_random_sections = samples_number, output_path = output_path, output_name = i)
 
   #------------------------ Pixel based colocalization data ----------------------------------------#
   n <- length(picsA)*samples_number
@@ -369,6 +372,9 @@ dim <- c(128)
 pxsize <- 15
 otc_curves <- OTC::evaluate_tplans(data_path = output_path, data_list=data_list, pxsize=pxsize, dim=dim, output_path=output_path, output_name="yeast_random")
 
+# write source data to csv
+write.csv(otc_curves, file=file.path(output_path, "yeast_random_figure6_OTC_source_data.csv"))
+
 # plot otc curves
 OTC::plot_otc_curves(otc_curves = otc_curves, output_path = output_path, output_name = "yeast_random_figure6")
 
@@ -393,7 +399,7 @@ barplot
 dev.off()
 
 # Save Colocalization data
-write.csv(coloc_complete, "../results/yeast_random_figure6_pixelbased_comparison_coloc_data.csv")
+write.csv(coloc_complete, "../results/yeast_random_figure6_pixelbased_comparison_source_data.csv")
 write.csv(mean_complete, "../results/yeast_random_figure6_pixelbased_comparison_mean_data.csv")
 
 
