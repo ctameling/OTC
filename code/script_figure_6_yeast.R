@@ -20,6 +20,7 @@ tryCatch(
 library(OTC)
 library(ggplot2)
 library(tiff)
+library(tidyr)
 source("../code/corMethods.R") 
 
 # get data path
@@ -185,52 +186,47 @@ OTC::plot_otc_curves(otc_curves = otc_curves, output_path =output_path, output_n
 
 #------------------------ Pixel based colocalization data ----------------------------------------#
 
-mean_complete <- rbind(frame_Tom40_Mrpl4, frame_Tom40_Cbp3,
-                       frame_Tom40_Tom20, frame_Tom40_Tom40)
 coloc_complete <- rbind(coloc_data_Tom40_Mrpl4, coloc_data_Tom40_Cbp3,
                         coloc_data_Tom40_Tom20, coloc_data_Tom40_Tom40)
-mean_complete$i <- factor(mean_complete$i, levels = unique(mean_complete$i), ordered=TRUE)
 
-# Initialize Barplot
-barplot <- ggplot(mean_complete, x=i, y=meanvalue, aes(i, meanvalue, fill = coefficients)) +
-  geom_bar(stat = "identity", , position=position_dodge()) +
-  labs(title = "", x = "", y = "") +
-  geom_errorbar(aes(ymin=meanvalue-standarderror, ymax=meanvalue+standarderror),
-                position = position_dodge()) +
-  coord_cartesian(ylim = c(0, 2.5))
+# reshape coloc_complete data
+coloc_complete <- coloc_complete %>% gather(method, value, colnames(coloc_complete)[-1])
+
+boxplot <- ggplot(coloc_complete, aes(x=Picture, y=value, fill=method)) + geom_boxplot() +
+  labs(title = "", x="", y="Amount of colocalization")
+
+# save plot data
+boxplot_data <- unlist(ggplot_build(boxplot)$data)
+write.csv(boxplot_data, "../results/yeast_figure6_pixelbased_comparison_boxplot_data.csv")
 
 pdf("../results/yeast_figure6_pixelbased_comparison.pdf", width = 10, height = 7)
-barplot
+boxplot
 dev.off()
 
 # Save Colocalization data
 write.csv(coloc_complete, "../results/yeast_figure6_pixelbased_comparison_source_data.csv")
-write.csv(mean_complete, "../results/yeast_figure6_pixelbased_comparison_mean_data.csv")
 
 #------------------------ Object based colocalization data ----------------------------------------#
 # Combine data of all Colocalization levels
-mean_object_complete <- rbind(frame_object_Tom40_Mrpl4, frame_object_Tom40_Cbp3,
-                       frame_object_Tom40_Tom20, frame_object_Tom40_Tom40)
 coloc_object_complete <- rbind(coloc_data_object_Tom40_Mrpl4, coloc_data_object_Tom40_Cbp3,
                         coloc_data_object_Tom40_Tom20, coloc_data_object_Tom40_Tom40)
-mean_object_complete$i <- factor(mean_object_complete$i, 
-                                 levels = unique(mean_object_complete$i), ordered=TRUE)
 
-# Initialize Barplot
-barplot <- ggplot(mean_object_complete, x=factor(i), y=meanvalue, aes(factor(i), meanvalue, fill = coefficients)) +
-  geom_bar(stat = "identity", position=position_dodge()) +
-  labs(title = "", x = "", y = "") +
-  geom_errorbar(aes(ymin=meanvalue-standarderror, ymax=meanvalue+standarderror),
-                position = position_dodge()) +
-  coord_cartesian(ylim = c(-0.25, 1))
+# reshape coloc_complete data
+coloc_object_complete <- coloc_object_complete %>% gather(method, value, colnames(coloc_object_complete)[-1])
+
+boxplot <- ggplot(coloc_object_complete, aes(x=Picture, y=value, fill=method)) + geom_boxplot() +
+  labs(title = "", x="", y="Amount of colocalization")
+
+# save plot data
+boxplot_data <- unlist(ggplot_build(boxplot)$data)
+write.csv(boxplot_data, "../results/yeast_figure6_objectbased_comparison_boxplot_data.csv")
 
 pdf("../results/yeast_figure6_objectbased_comparison.pdf", width = 10, height = 7)
-barplot
+boxplot
 dev.off()
 
 # Save Colocalization data
 write.csv(coloc_object_complete, "../results/yeast_figure6_objectbased_comparison_source_data.csv")
-write.csv(mean_object_complete, "../results/yeast_figure6_objectbased_comparison_mean_data.csv")
 
 ############ randomly picked data #########################################################################
 seed_Tom40_Cbp3 <- 21
@@ -380,26 +376,23 @@ OTC::plot_otc_curves(otc_curves = otc_curves, output_path = output_path, output_
 
 
 #------------------------ Pixel based colocalization data ----------------------------------------#
-mean_complete <- rbind(frame_Tom40_Mrpl4, frame_Tom40_Cbp3,
-                       frame_Tom40_Tom20, frame_Tom40_Tom40)
 coloc_complete <- rbind(coloc_data_Tom40_Mrpl4, coloc_data_Tom40_Cbp3,
                         coloc_data_Tom40_Tom20, coloc_data_Tom40_Tom40)
-mean_complete$i <- factor(mean_complete$i, levels = unique(mean_complete$i), ordered=TRUE)
 
-# Initialize Barplot
-barplot <- ggplot(mean_complete, x=i, y=meanvalue, aes(i, meanvalue, fill = coefficients)) +
-  geom_bar(stat = "identity", , position=position_dodge()) +
-  labs(title = "", x = "", y = "") +
-  geom_errorbar(aes(ymin=meanvalue-standarderror, ymax=meanvalue+standarderror),
-                position = position_dodge()) +
-  coord_cartesian(ylim = c(0, 2.5))
+# reshape coloc_complete data
+coloc_complete <- coloc_complete %>% gather(method, value, colnames(coloc_complete)[-1])
+
+boxplot <- ggplot(coloc_complete, aes(x=Picture, y=value, fill=method)) + geom_boxplot() +
+  labs(title = "", x="", y="Amount of colocalization")
+
+# save plot data
+boxplot_data <- unlist(ggplot_build(boxplot)$data)
+write.csv(boxplot_data, "../results/yeast_random_figure6_pixelbased_comparison_boxplot_data.csv")
 
 pdf("../results/yeast_random_figure6_pixelbased_comparison.pdf", width = 10, height = 7)
-barplot
+boxplot
 dev.off()
 
 # Save Colocalization data
 write.csv(coloc_complete, "../results/yeast_random_figure6_pixelbased_comparison_source_data.csv")
-write.csv(mean_complete, "../results/yeast_random_figure6_pixelbased_comparison_mean_data.csv")
-
 
