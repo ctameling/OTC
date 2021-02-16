@@ -7,6 +7,7 @@ RNGversion("3.5.3")  # change to old sampling default
 
 library(tiff)
 library(ggplot2)
+library(tidyr)
 source("../code/corMethods.R") 
 
 # get data path
@@ -106,26 +107,24 @@ for (i in c("2D", "3D")){
   assign(paste0("frame_",i), frame_coefficients)
 }
 
-mean_complete <- rbind(frame_2D, frame_3D)
 coloc_complete <- rbind(coloc_data_2D, coloc_data_3D)
 
-mean_complete$name_molecule <- factor(mean_complete$name_molecule, levels = unique(mean_complete$name_molecule), ordered=TRUE)
+# reshape coloc_complete data
+coloc_complete <- coloc_complete %>% gather(method, value, colnames(coloc_complete)[-1])
 
-# Initialize Barplot
-barplot <- ggplot(mean_complete, x=i, y=meanvalue, aes(i, meanvalue, fill = coefficients)) +  
-  geom_bar(stat = "identity", , position=position_dodge()) + 
-  labs(title = "", x = "", y = "") +
-  geom_errorbar(aes(ymin=meanvalue-standarderror, ymax=meanvalue+standarderror), 
-                position = position_dodge()) +
-  coord_cartesian(ylim = c(0, 2.5))
+boxplot <- ggplot(coloc_complete, aes(x=Picture, y=value, fill=method)) + geom_boxplot() +
+  labs(title = "", x="", y="Amount of colocalization")
+
+# save plot data
+boxplot_data <- unlist(ggplot_build(boxplot)$data)
+write.csv(boxplot_data, "../results/2D_3D_suppl_figure9_pixelbased_comparison_boxplot_data.csv")
 
 pdf("../results/2D_3D_suppl_figure9_pixelbased_comparison.pdf", width = 10, height = 7)
-barplot
+boxplot
 dev.off()
 
 # Save Colocalization data 
 write.csv(coloc_complete, "../results/2D_3D_suppl_figure9_pixelbased_comparison_coloc_data.csv") 
-write.csv(mean_complete, "../results/2D_3D_suppl_figure9_pixelbased_comparison_mean_data.csv")
 
 ############ randomly picked data #########################################################################
 samples_number <- 34
@@ -241,23 +240,21 @@ for (i in c("2D", "3D")){
   assign(paste0("frame_",i), frame_coefficients)
 }
 
-mean_complete <- rbind(frame_2D, frame_3D)
 coloc_complete <- rbind(coloc_data_2D, coloc_data_3D)
 
-mean_complete$name_molecule <- factor(mean_complete$name_molecule, levels = unique(mean_complete$name_molecule), ordered=TRUE)
+# reshape coloc_complete data
+coloc_complete <- coloc_complete %>% gather(method, value, colnames(coloc_complete)[-1])
 
-# Initialize Barplot
-barplot <- ggplot(mean_complete, x=i, y=meanvalue, aes(i, meanvalue, fill = coefficients)) +  
-  geom_bar(stat = "identity", , position=position_dodge()) + 
-  labs(title = "", x = "", y = "") +
-  geom_errorbar(aes(ymin=meanvalue-standarderror, ymax=meanvalue+standarderror), 
-                position = position_dodge()) +
-  coord_cartesian(ylim = c(0, 2.5))
+boxplot <- ggplot(coloc_complete, aes(x=Picture, y=value, fill=method)) + geom_boxplot() +
+  labs(title = "", x="", y="Amount of colocalization")
+
+# save plot data
+boxplot_data <- unlist(ggplot_build(boxplot)$data)
+write.csv(boxplot_data, "../results/2D_3D_random_suppl_figure9_pixelbased_comparison_boxplot_data.csv")
 
 pdf("../results/2D_3D_random_suppl_figure9_pixelbased_comparison.pdf", width = 10, height = 7)
-barplot
+boxplot
 dev.off()
 
 # Save Colocalization data 
 write.csv(coloc_complete, "../results/2D_3D_random_suppl_figure9_pixelbased_comparison_coloc_data.csv") 
-write.csv(mean_complete, "../results/2D_3D_random_suppl_figure9_pixelbased_comparison_mean_data.csv")
