@@ -19,6 +19,8 @@ tryCatch(
 library(OTC)
 library(tiff)
 library(ggplot2)
+library(tidyr)
+
 source("../code/corMethods.R") 
 
 # get data path
@@ -40,7 +42,7 @@ for (i in data_sets){
   object_coloc <- files[grepl("Object_coloc_", files)]
   
   # compute tplans
-  tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, output_path = output_path, output_name = paste("ring_structure", i, sep="_"))
+  #tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, output_path = output_path, output_name = paste("ring_structure", i, sep="_"))
   
   #------------------------ Pixel based colocalization data ----------------------------------------#
   n <- length(picsA)
@@ -135,7 +137,11 @@ for (i in data_sets){
   coloc_data <- data.frame("Picture" = i,
                            "Mask center 1 inside Mask 2" = Mask_center_1_inside_Mask_2,
                            "Ripley's K of 2 coloc. with 1" = Ripley_s_K_of_2_coloc_with_1,
-                           "SODA of 2 coloc. with 1" = SODA_of_2_coloc._with_1)
+                           "SODA of 2 coloc. with 1" = SODA_of_2_coloc._with_1,
+                           "Coloc-Tesseler Spearmans A" = coloc_tessler_data$Spearmann.A, 
+                           "Coloc-Tesseler Spearmans B" = coloc_tessler_data$Spearmann.B,
+                           "Coloc-Tesseler Manders A" = coloc_tessler_data$Manders.A,
+                           "Coloc-Tesseler Manders B" = coloc_tessler_data$Manders.B)
   assign(paste0("coloc_data_object_",i), coloc_data)
 
   coefficients <- c("Mask center 1 inside Mask 2",
@@ -159,9 +165,13 @@ for (i in data_sets){
   standarderror[3] <- stand.error(SODA_of_2_coloc._with_1)
   # add results from coloc tesseler
   meanvalue[4] <- coloc_tessler_data$Spearmann.A
+  standarderror[4] <- stand.error(coloc_tessler_data$Spearmann.A)
   meanvalue[5] <- coloc_tessler_data$Spearmann.B
+  standarderror[5] <- stand.error(coloc_tessler_data$Spearmann.B)
   meanvalue[6] <- coloc_tessler_data$Manders.A
+  standarderror[6] <- stand.error(coloc_tessler_data$Manders.A)
   meanvalue[7] <- coloc_tessler_data$Manders.B
+  standarderror[7] <- stand.error(coloc_tessler_data$Manders.B)
 
   resolution <- i
   frame_coefficients <- data.frame(coefficients, meanvalue, standarderror,
@@ -173,54 +183,55 @@ for (i in data_sets){
 data_list <- paste("Tplans_ring_structure_", data_sets, ".RData", sep="")
 dim <- c(128)
 pxsize <- 15
-otc_curves <- OTC::evaluate_tplans(data_path = output_path, data_list=data_list, pxsize=pxsize, dim=dim, output_path=output_path, output_name="ring_structure")
+#otc_curves <- OTC::evaluate_tplans(data_path = output_path, data_list=data_list, pxsize=pxsize, dim=dim, output_path=output_path, output_name="ring_structure")
 
 # plot otc curves
-OTC::plot_otc_curves(otc_curves = otc_curves, output_path = output_path, output_name = "ring_structures")
+#OTC::plot_otc_curves(otc_curves = otc_curves, output_path = output_path, output_name = "ring_structures")
 
 
 #------------------------ Pixel based colocalization data ----------------------------------------#
 # Combine data of all Colocalization levels
-coloc_pixel_complete <- rbind(coloc_data_pixel_40, coloc_data_pixel_80, coloc_data_pixel_120,
+coloc_complete <- rbind(coloc_data_pixel_40, coloc_data_pixel_80, coloc_data_pixel_120,
                               coloc_data_pixel_160, coloc_data_pixel_200,coloc_data_pixel_240)
-mean_pixel_complete <- rbind(frame_pixel_40, frame_pixel_80, frame_pixel_120,
-                             frame_pixel_160, frame_pixel_200, frame_pixel_240)
 
-# Initialize Barplot
-barplot <- ggplot(mean_pixel_complete, x=factor(resolution), y=meanvalue, aes(factor(resolution), meanvalue, fill = coefficients)) +
-  geom_bar(stat = "identity", position=position_dodge()) +
-  labs(title = "", x = "Resolution", y = "Computed Colocalisation") +
-  geom_errorbar(aes(ymin=meanvalue-standarderror, ymax=meanvalue+standarderror),
-                position = position_dodge()) +
-  coord_cartesian(ylim = c(0, 5))
+# reshape coloc_complete data
+coloc_complete <- coloc_complete %>% gather(method, value, colnames(coloc_complete)[-1])
+
+boxplot <- ggplot(coloc_complete, aes(x=factor(Picture), y =value, fill=method)) + 
+  geom_boxplot() + ylim(0,5) +
+  labs(title = "", x="", y="Amount of colocalization")
+boxplot
+
+# save plot data
+boxplot_data <- unlist(ggplot_build(boxplot)$data)
+write.csv(boxplot_data, "../results/ring_pixelbased_comparison_boxplot_data.csv")
 
 pdf("../results/ring_pixelbased_comparison.pdf", width = 10, height = 7)
-barplot
+boxplot
 dev.off()
 
 # Save Colocalization data
 write.csv(coloc_pixel_complete, "../results/ring_pixelbased_comparison_coloc_data.csv")
-write.csv(mean_pixel_complete, "../results/ring_pixelbased_comparison_mean_data.csv")
 
 #------------------------ Object based colocalization data ----------------------------------------#
 # Combine data of all Colocalization levels
 coloc_object_complete <- rbind(coloc_data_object_40, coloc_data_object_80, coloc_data_object_120,
                                coloc_data_object_160, coloc_data_object_200,coloc_data_object_240)
-mean_object_complete <- rbind(frame_object_40, frame_object_80, frame_object_120,
-                              frame_object_160, frame_object_200, frame_object_240)
 
-# Initialize Barplot
-barplot <- ggplot(mean_object_complete, x=factor(resolution), y=meanvalue, aes(factor(resolution), meanvalue, fill = coefficients)) +
-  geom_bar(stat = "identity", position=position_dodge()) +
-  labs(title = "", x = "Resolution", y = "Computed Colocalisation") +
-  geom_errorbar(aes(ymin=meanvalue-standarderror, ymax=meanvalue+standarderror),
-                position = position_dodge()) +
-  coord_cartesian(ylim = c(0, 1.5))
+# reshape coloc_complete data
+coloc_object_complete <- coloc_object_complete %>% gather(method, value, colnames(coloc_object_complete)[-1])
+
+boxplot <- ggplot(coloc_object_complete, aes(x=factor(Picture), y=value, fill=method)) + 
+  geom_boxplot() + ylim(0,1.5) +
+  labs(title = "", x="", y="Amount of colocalization")
+
+# save plot data
+boxplot_data <- unlist(ggplot_build(boxplot)$data)
+write.csv(boxplot_data, "../results/ring_objectbased_comparison_boxplot_data.csv")
 
 pdf("../results/ring_objectbased_comparison.pdf", width = 10, height = 7)
-barplot
+boxplot
 dev.off()
 
 # Save Colocalization data
 write.csv(coloc_object_complete, "../results/ring_objectbased_comparison_coloc_data.csv")
-write.csv(mean_object_complete, "../results/ring_objectbased_comparison_mean_data.csv")

@@ -112,7 +112,8 @@ coloc_complete <- rbind(coloc_data_2D, coloc_data_3D)
 # reshape coloc_complete data
 coloc_complete <- coloc_complete %>% gather(method, value, colnames(coloc_complete)[-1])
 
-boxplot <- ggplot(coloc_complete, aes(x=Picture, y=value, fill=method)) + geom_boxplot() +
+boxplot <- ggplot(coloc_complete, aes(x=Picture, y=value, fill=method)) + 
+  geom_boxplot() + ylim(0,3) +
   labs(title = "", x="", y="Amount of colocalization")
 
 # save plot data
@@ -245,7 +246,8 @@ coloc_complete <- rbind(coloc_data_2D, coloc_data_3D)
 # reshape coloc_complete data
 coloc_complete <- coloc_complete %>% gather(method, value, colnames(coloc_complete)[-1])
 
-boxplot <- ggplot(coloc_complete, aes(x=Picture, y=value, fill=method)) + geom_boxplot() +
+boxplot <- ggplot(coloc_complete, aes(x=Picture, y=value, fill=method)) + 
+  geom_boxplot() + ylim(0,3) +
   labs(title = "", x="", y="Amount of colocalization")
 
 # save plot data

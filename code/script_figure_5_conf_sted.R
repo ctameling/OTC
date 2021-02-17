@@ -136,7 +136,11 @@ for (i in c("Conf", "STED")){
   coloc_data <- data.frame("Picture" = i,
                            "Mask center 1 inside Mask 2" = Mask_center_1_inside_Mask_2,
                            "Ripley's K of 2 coloc. with 1" = Ripley_s_K_of_2_coloc_with_1,
-                           "SODA of 2 coloc. with 1" = SODA_of_2_coloc._with_1)
+                           "SODA of 2 coloc. with 1" = SODA_of_2_coloc._with_1,
+                           "Coloc-Tesseler Spearmans A" = coloc_tessler_data$Spearmann.A, 
+                           "Coloc-Tesseler Spearmans B" = coloc_tessler_data$Spearmann.B,
+                           "Coloc-Tesseler Manders A" = coloc_tessler_data$Manders.A,
+                           "Coloc-Tesseler Manders B" = coloc_tessler_data$Manders.B)
   assign(paste0("coloc_data_object_",i), coloc_data)
   
   coefficients <- c("Mask center 1 inside Mask 2",
@@ -160,9 +164,13 @@ for (i in c("Conf", "STED")){
   standarderror[3] <- stand.error(SODA_of_2_coloc._with_1)
   # add results from coloc tesseler
   meanvalue[4] <- coloc_tessler_data$Spearmann.A
+  standarderror[4] <- stand.error(coloc_tessler_data$Spearmann.A)
   meanvalue[5] <- coloc_tessler_data$Spearmann.B
+  standarderror[5] <- stand.error(coloc_tessler_data$Spearmann.B)
   meanvalue[6] <- coloc_tessler_data$Manders.A
+  standarderror[6] <- stand.error(coloc_tessler_data$Manders.A)
   meanvalue[7] <- coloc_tessler_data$Manders.B
+  standarderror[7] <- stand.error(coloc_tessler_data$Manders.B)
   
   name_molecule <- i
   frame_coefficients <- data.frame(coefficients, meanvalue, standarderror,
@@ -174,13 +182,13 @@ for (i in c("Conf", "STED")){
 data_list <- paste("Tplans_", data_sets, ".RData", sep="")
 dim <- c(128)
 pxsize <- 15
-otc_curves <- OTC::evaluate_tplans(data_path = output_path, data_list=data_list, pxsize=pxsize, dim=dim, output_path=output_path, output_name="Conf_STED")
+#otc_curves <- OTC::evaluate_tplans(data_path = output_path, data_list=data_list, pxsize=pxsize, dim=dim, output_path=output_path, output_name="Conf_STED")
 
 # write source data to csv
-write.csv(otc_curves, file=file.path(output_path, "Conf_STED_figure5_OTC_source_data.csv"))
+#write.csv(otc_curves, file=file.path(output_path, "Conf_STED_figure5_OTC_source_data.csv"))
 
 # plot otc curves
-OTC::plot_otc_curves(otc_curves = otc_curves, output_path = output_path, output_name = "Conf_STED_figure5")
+#OTC::plot_otc_curves(otc_curves = otc_curves, output_path = output_path, output_name = "Conf_STED_figure5")
 
 
 #------------------------ Pixel based colocalization data ----------------------------------------#
@@ -189,8 +197,10 @@ coloc_complete <- rbind(coloc_data_Conf, coloc_data_STED)
 # reshape coloc_complete data
 coloc_complete <- coloc_complete %>% gather(method, value, colnames(coloc_complete)[-1])
 
-boxplot <- ggplot(coloc_complete, aes(x=Picture, y=value, fill=method)) + geom_boxplot() +
+boxplot <- ggplot(coloc_complete, aes(x=Picture, y=value, fill=method)) + 
+  geom_boxplot() + ylim(0,3) +
   labs(title = "", x="", y="Amount of colocalization")
+boxplot
 
 # save plot data
 boxplot_data <- unlist(ggplot_build(boxplot)$data)
@@ -211,8 +221,10 @@ coloc_object_complete <- rbind(coloc_data_object_Conf, coloc_data_object_STED)
 # reshape coloc_complete data
 coloc_object_complete <- coloc_object_complete %>% gather(method, value, colnames(coloc_object_complete)[-1])
 
-boxplot <- ggplot(coloc_object_complete, aes(x=Picture, y=value, fill=method)) + geom_boxplot() +
+boxplot <- ggplot(coloc_object_complete, aes(x=Picture, y=value, fill=method)) + 
+  geom_boxplot() + ylim(0,1) +
   labs(title = "", x="", y="Amount of colocalization")
+boxplot
 
 # save plot data
 boxplot_data <- unlist(ggplot_build(boxplot)$data)
@@ -355,13 +367,13 @@ for (i in c("Conf", "STED")){
 data_list <- paste("Tplans_", data_sets, ".RData", sep="")
 dim <- c(128)
 pxsize <- 15
-otc_curves <- OTC::evaluate_tplans(data_path = output_path, data_list=data_list, pxsize=pxsize, dim=dim, output_path=output_path, output_name="Conf_STED_random")
+#otc_curves <- OTC::evaluate_tplans(data_path = output_path, data_list=data_list, pxsize=pxsize, dim=dim, output_path=output_path, output_name="Conf_STED_random")
 
 # write source data to csv
-write.csv(otc_curves, file=file.path(output_path, "Conf_STED_random_figure5_OTC_source_data.csv"))
+#write.csv(otc_curves, file=file.path(output_path, "Conf_STED_random_figure5_OTC_source_data.csv"))
 
 # plot otc curves
-OTC::plot_otc_curves(otc_curves = otc_curves, output_path = "../results", output_name = "Conf_STED_random_figure5")
+#OTC::plot_otc_curves(otc_curves = otc_curves, output_path = "../results", output_name = "Conf_STED_random_figure5")
 
 
 #------------------------ Pixel based colocalization data ----------------------------------------#
@@ -370,7 +382,8 @@ coloc_complete <- rbind(coloc_data_Conf, coloc_data_STED)
 # reshape coloc_complete data
 coloc_complete <- coloc_complete %>% gather(method, value, colnames(coloc_complete)[-1])
 
-boxplot <- ggplot(coloc_complete, aes(x=Picture, y=value, fill=method)) + geom_boxplot() +
+boxplot <- ggplot(coloc_complete, aes(x=Picture, y=value, fill=method)) + 
+  geom_boxplot() + ylim(0,3) +
   labs(title = "", x="", y="Amount of colocalization")
 
 # save plot data
