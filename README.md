@@ -1,6 +1,9 @@
 # OTC
 
-This repository includes all code and data to reproduce all figures in the paper. To reproduce a figure just run the script with the figure name.
+This repository includes the R package to perform optimal transport colocalization analyses of super resolution data. 
+
+## Reproducibility
+To reproduce a figure in the paper Colocalization for Super-Resolution Microscopy via Optimal Transport (C. Tameling et al, 2021) just run the script located under Code with the figure name.
 
 ## Installation
 To use the OTC package on your own data, we recommend to install CPLEX to significantly speed up the computation. Therefore sign up for the acemdic initiative at IBM and download CPLEX. Aferwards download the transport package from CRAN and adapt the makevars file to include CPLEX. With this liniking install the transport package and afterwards the OTC package from this repository.
