@@ -70,11 +70,11 @@ for (i in data_sets){
   }
   tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB,
                                    random_sections=TRUE, n_random_sections = 34, relmass_factor = relmass_factor,
-                                   output_path = output_path, output_name = i)
+                                   output_path = output_path, output_name = paste(i, "random", sep="_"))
 }
 
 # evaluate OTC
-data_list <- paste("Tplans_", data_sets, ".RData", sep="")
+data_list <- paste("Tplans_", data_sets, "_random.RData", sep="")
 dim <- c(128)
 pxsize <- 15
 otc_curves <- OTC::evaluate_tplans(data_path = output_path, data_list=data_list, pxsize=pxsize, dim=dim, output_path=output_path, output_name="2D_3D_random")
