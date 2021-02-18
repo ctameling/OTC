@@ -43,7 +43,7 @@ for (i in c("Conf", "STED")){
   object_coloc <- files[grepl("Object_coloc_", files)]
   
   # compute tplans
-  tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, output_path = output_path, output_name = i)
+  #tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, output_path = output_path, output_name = i)
   
   #------------------------ Pixel based colocalization data ----------------------------------------#
   n <- length(picsA)
@@ -188,7 +188,7 @@ otc_curves <- OTC::evaluate_tplans(data_path = output_path, data_list=data_list,
 write.csv(otc_curves, file=file.path(output_path, "Conf_STED_figure5_OTC_source_data.csv"))
 
 # plot otc curves
-OTC::plot_otc_curves(otc_curves = otc_curves, output_path = output_path, output_name = "Conf_STED_figure5")
+OTC::plot_otc_curves(otc_curves = otc_curves, lower_t= 0, upper_t=2500, output_path = output_path, output_name = "Conf_STED_figure5")
 
 
 #------------------------ Pixel based colocalization data ----------------------------------------#
@@ -258,9 +258,9 @@ for (i in c("Conf", "STED")){
   }
 
   # compute tplans
-  tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB,
-                                 random_sections=TRUE, n_random_sections = samples_number, relmass_factor = relmass_factor,
-                                  output_path = output_path, output_name = paste(i, "random", sep="_"))
+  # tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB,
+  #                                random_sections=TRUE, n_random_sections = samples_number, relmass_factor = relmass_factor,
+  #                                 output_path = output_path, output_name = paste(i, "random", sep="_"))
 
   #------------------------ Pixel based colocalization data ----------------------------------------#
   n <- length(picsA)*samples_number
@@ -367,13 +367,13 @@ for (i in c("Conf", "STED")){
 data_list <- paste("Tplans_", data_sets, "_random.RData", sep="")
 dim <- c(128)
 pxsize <- 15
-otc_curves <- OTC::evaluate_tplans(data_path = output_path, data_list=data_list, pxsize=pxsize, dim=dim, output_path=output_path, output_name="Conf_STED_random")
+otc_curves <- OTC::evaluate_tplans(data_path = output_path, data_list=data_list, pxsize=pxsize, dim=dim, output_path=output_path, output_name="Conf_STED_random_full")
 
 # write source data to csv
 write.csv(otc_curves, file=file.path(output_path, "Conf_STED_random_figure5_OTC_source_data.csv"))
 
 # plot otc curves
-OTC::plot_otc_curves(otc_curves = otc_curves, output_path = "../results", output_name = "Conf_STED_random_figure5")
+OTC::plot_otc_curves(otc_curves = otc_curves, lower_t=0, upper_t=2500, output_path = "../results", output_name = "Conf_STED_random_figure5")
 
 
 #------------------------ Pixel based colocalization data ----------------------------------------#
