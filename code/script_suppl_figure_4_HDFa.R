@@ -34,7 +34,7 @@ for (i in data_sets){
   picsB <- files[grepl("_B_", files)]
   
   # compute tplans
-  tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, output_path = output_path, output_name = i)
+ # tplans <- OTC::calculate_tplans(data_path = data_path_i, picsA = picsA, picsB = picsB, output_path = output_path, output_name = i)
 }
 
 # evaluate OTC
