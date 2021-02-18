@@ -5,7 +5,6 @@ RNGversion("3.5.3")  # change to old sampling default
 ####### Evaluation of confocal and STED images #######################################################
 ######################################################################################################
 
-install.packages("OTC_0.1.0.tar.gz", repos = NULL, type = "source")
 tryCatch(
   {
     current_path = rstudioapi::getActiveDocumentContext()$path
@@ -17,6 +16,7 @@ tryCatch(
       setwd(this.dir)
     }
   })
+install.packages("OTC_0.1.0.tar.gz", repos = NULL, type = "source")
 library(OTC)
 library(ggplot2)
 library(tiff)
